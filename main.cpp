@@ -3,6 +3,7 @@
 #include "SDL2/SDL.h"
 #include "OpenGL/gl.h"
 #include "stb_image.h"
+#include <math.h>
 
 void drawRect(int x, int y, int w, int h) {
     glBegin(GL_TRIANGLES);
@@ -23,7 +24,10 @@ void drawRect(int x, int y, int w, int h) {
 
 void drawCircle(int centerX, int centerY, int radius) {
     glBegin(GL_TRIANGLE_FAN);
-
+    glVertex2d(centerX, centerY);
+    for (int i = 0; i < 360; i++) {
+        glVertex2d(centerX + cos(i), centerY - sin(i));
+    }
 }
 
 int main(int argc, char** argv){
