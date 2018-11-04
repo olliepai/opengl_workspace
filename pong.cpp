@@ -73,7 +73,7 @@ struct Paddle {
         translateMatrix2D(model, position);
         scaleMatrix2D(model, scale);
         glUniformMatrix4fv(modelMatrixId, 1, false, model[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 };
 
@@ -167,8 +167,11 @@ int main(int argc, char** argv){
 
     float verts[] = {
         -1, -1, 0, 1, 
-        0, 1, 0.5, 0,
-        1, -1, 1, 1,
+        -1, 1, 0.5, 0,
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, -1, 0, 0,
+        -1, -1, 0, 1, 
     };
 
     unsigned int vao, vbo;
