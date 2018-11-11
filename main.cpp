@@ -6,6 +6,8 @@
 
 #include "shader_compiler.h"
 
+#include "mat4.cpp"
+
 #define GRAVITY -1
 #define MAX_TRIANGLES 4096
 
@@ -101,7 +103,7 @@ int main(int argc, char** argv){
 
     float projectionMatrix[4][4];
     setIdentityMatrix(projectionMatrix);
-    setOrthoganalProjectionMatrix(projectionMatrix, 0, WIDTH, 0, HEIGHT); 
+    //setOrthoganalProjectionMatrix(projectionMatrix, 0, WIDTH, 0, HEIGHT); 
     glUniformMatrix4fv(projectionMatId, 1, false, projectionMatrix[0]);
 
     float verts[] = {
@@ -138,10 +140,8 @@ int main(int argc, char** argv){
 
     glClearColor(1, 1, 0, 1);
 
-    Triangle triangles[MAX_TRIANGLES];
-    unsigned int totalTriangles = 0;
-
-
+    
+    float ang = 0;
 
     SDL_Event event;
     bool isRunning = true;
@@ -161,15 +161,18 @@ int main(int argc, char** argv){
                 case SDL_MOUSEBUTTONDOWN :{
                     int x, y;
                     SDL_GetMouseState(&x, &y);
-                    addTriangle(x, y, triangles, totalTriangles);
+                    
                     break;
                 }
             }
         }
         glClear(GL_COLOR_BUFFER_BIT);
 
-        updateTriangles(triangles, totalTriangles);      
-        renderTriangles(triangles, totalTriangles, modelMatId);
+        mat4 modelMatrix(1);
+        
+        modelMatrix.rotateX(5);
+        glUniformMatrix4fv(modelMatId, 1, false, &modelMatrix.m[0][0]);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         SDL_GL_SwapWindow(window);
     }
